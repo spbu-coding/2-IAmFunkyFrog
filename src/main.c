@@ -99,4 +99,4 @@ int main(int argc, char* argv[]) {
 
     return swapped_count;
 }
-// return code -1 - < 2 params, -2 - > 2 params, -3 - repeat of params, -4 - not valid params, -5 - error read stdin
+// return code -1 - < 2 params, -2 - > 2 params, -3 - repeat of params, -4 - not valid params
