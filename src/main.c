@@ -26,13 +26,18 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
         return -3;
 
     for(int i = 1; i < argc; i++) {
+        char *ptr;
         long long number_in_string;
         if (strncmp(argv[i], FROM_PARAM_STRING, strlen(FROM_PARAM_STRING)) == 0 && out_interval->from_set_flag == 0) {
-            number_in_string = strtoll(strchr(argv[i], '=') + 1, NULL, 10);
+            number_in_string = strtoll(strchr(argv[i], '=') + 1, &ptr, 10);
+            if(*ptr != '\0')
+                number_in_string = 0;
             out_interval->from = number_in_string;
             out_interval->from_set_flag = 1;
         } else if (strncmp(argv[i], TO_PARAM_STRING, strlen(TO_PARAM_STRING)) == 0 && out_interval->to_set_flag == 0) {
-            number_in_string = strtoll(strchr(argv[i], '=') + 1, NULL, 10);
+            number_in_string = strtoll(strchr(argv[i], '=') + 1, &ptr, 10);
+            if(*ptr != '\0')
+                number_in_string = 0;
             out_interval->to = number_in_string;
             out_interval->to_set_flag = 1;
         }
