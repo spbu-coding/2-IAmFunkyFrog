@@ -11,8 +11,8 @@
 //Параметры from и from_set_flag (to и to_set_flag) обновляются парами
 //Если параметр неактивен, его флаг необходимо установить в 0
 struct interval_t {
-    int from;
-    int to;
+    long long from;
+    long long to;
     int from_set_flag;
     int to_set_flag;
 };
@@ -27,7 +27,7 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
 
     for(int i = 1; i < argc; i++) {
         char *ptr;
-        int number_in_string;
+        long long number_in_string;
         if (strncmp(argv[i], FROM_PARAM_STRING, strlen(FROM_PARAM_STRING)) == 0 && out_interval->from_set_flag == 0) {
             number_in_string = strtoll(strchr(argv[i], '=') + 1, &ptr, 10);
             if(*ptr != '\0')
@@ -49,28 +49,28 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
     return 0;
 }
 
-int read_input_array(int out_array[], int array_max_size, struct interval_t interval) {
+int read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
     int size = 0;
-    //char delim;
-    int num;
+    char delim;
+    long long num;
 
     do {
-        if(scanf("%i", &num) != 1)
-            return size;
+        if(scanf("%lli%c", &num, &delim) != 2)
+            return -1;
         if(num <= interval.from && interval.from_set_flag == 1)
-            printf("%i ", num);
+            printf("%lli ", num);
         if(num >= interval.to && interval.to_set_flag == 1)
-            stderr_printf("%i ", num);
+            stderr_printf("%lli ", num);
         if((num > interval.from || interval.from_set_flag == 0) && (num < interval.to || interval.to_set_flag == 0)) {
             out_array[size] = num;
             size++;
         }
-    } while (size < array_max_size);
+    } while (delim == ' ' && size < array_max_size);
 
     return size;
 }
 
-int compare_arrays(const int array1[], const int array2[], int size) {
+int compare_arrays(const long long array1[], const long long array2[], int size) {
     int difference_count = 0;
     for(int i = 0; i < size; i++) {
         if(array1[i] != array2[i])
@@ -88,19 +88,19 @@ int main(int argc, char* argv[]) {
         return parse_return_code;
 
     int size;
-    int input_array[INPUT_ARRAY_MAX_SIZE];
+    long long input_array[INPUT_ARRAY_MAX_SIZE];
     size = read_input_array(input_array, INPUT_ARRAY_MAX_SIZE, interval);
     if(size < 0)
-        return -6;
+        return -5;
 
-    int *input_array_copy = (int*)malloc(size * sizeof(int));
+    long long *input_array_copy = (long long*)malloc(size * sizeof(long long));
     if(input_array_copy == NULL)
-        return -7;
-    memcpy(input_array_copy, input_array, size * sizeof(int));
+        return -5;
+    memcpy(input_array_copy, input_array, size * sizeof(long long));
     sort(input_array_copy, input_array_copy + size);
-    //int swapped_count = compare_arrays(input_array, input_array_copy, size);
+    int swapped_count = compare_arrays(input_array, input_array_copy, size);
     free(input_array_copy);
 
-    return size;
+    return swapped_count;
 }
 // return code -1 - < 2 params, -2 - > 2 params, -3 - repeat of params, -4 - not valid params
