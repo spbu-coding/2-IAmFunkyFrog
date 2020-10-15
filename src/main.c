@@ -56,7 +56,7 @@ size_t read_input_array(long long out_array[], int array_max_size, struct interv
 
     do {
         if(scanf("%lli%c", &num, &delim) != 2)
-            exit(EXIT_FAILURE);
+            return -1;
         if(num <= interval.from && interval.from_set_flag == 1)
             printf("%lli ", num);
         if(num >= interval.to && interval.to_set_flag == 1)
@@ -65,7 +65,7 @@ size_t read_input_array(long long out_array[], int array_max_size, struct interv
             out_array[size] = num;
             size++;
         }
-    } while (delim != '\n' && size < array_max_size);
+    } while (delim == ' ' && size < array_max_size);
 
     return size;
 }
@@ -90,13 +90,16 @@ int main(int argc, char* argv[]) {
     size_t size;
     long long input_array[INPUT_ARRAY_MAX_SIZE];
     size = read_input_array(input_array, INPUT_ARRAY_MAX_SIZE, interval);
+    if(size < 0)
+        return -5;
 
     long long *input_array_copy = (long long*)malloc(size * sizeof(long long));
     if(input_array_copy == NULL)
-        exit(EXIT_FAILURE);
+        return -5;
     memcpy(input_array_copy, input_array, size * sizeof(long long));
     sort(input_array_copy, input_array_copy + size);
     int swapped_count = compare_arrays(input_array, input_array_copy, size);
+    free(input_array_copy);
 
     return swapped_count;
 }
