@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
         return -7;
     memcpy(input_array_copy, input_array, size * sizeof(long long));
     sort(input_array_copy, input_array_copy + size);
-    int swapped_count = compare_arrays(input_array, input_array_copy, size);
+    //int swapped_count = compare_arrays(input_array, input_array_copy, size);
     free(input_array_copy);
 
     return size;
