@@ -49,7 +49,7 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
     return 0;
 }
 
-int read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
+size_t read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
     int size = 0;
     char delim;
     long long num;
@@ -87,15 +87,15 @@ int main(int argc, char* argv[]) {
     if(parse_return_code != 0)
         return parse_return_code;
 
-    int size;
+    size_t size;
     long long input_array[INPUT_ARRAY_MAX_SIZE];
     size = read_input_array(input_array, INPUT_ARRAY_MAX_SIZE, interval);
     if(size < 0)
-        return -5;
+        return -6;
 
     long long *input_array_copy = (long long*)malloc(size * sizeof(long long));
     if(input_array_copy == NULL)
-        return -5;
+        return -7;
     memcpy(input_array_copy, input_array, size * sizeof(long long));
     sort(input_array_copy, input_array_copy + size);
     int swapped_count = compare_arrays(input_array, input_array_copy, size);
