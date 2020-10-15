@@ -49,7 +49,7 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
     return 0;
 }
 
-size_t read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
+int read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
     int size = 0;
     char delim;
     long long num;
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
     if(parse_return_code != 0)
         return parse_return_code;
 
-    size_t size;
+    int size;
     long long input_array[INPUT_ARRAY_MAX_SIZE];
     size = read_input_array(input_array, INPUT_ARRAY_MAX_SIZE, interval);
     if(size < 0)
