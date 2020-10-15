@@ -52,7 +52,7 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
 int read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
     int size = 0;
     //char delim;
-    long long num;
+    int num;
 
     do {
         if(scanf("%i", &num) != 1)
@@ -62,7 +62,7 @@ int read_input_array(long long out_array[], int array_max_size, struct interval_
         if(num >= interval.to && interval.to_set_flag == 1)
             stderr_printf("%lli ", num);
         if((num > interval.from || interval.from_set_flag == 0) && (num < interval.to || interval.to_set_flag == 0)) {
-            out_array[size] = num;
+            out_array[size] = (long long)num;
             size++;
         }
     } while (size < array_max_size);
