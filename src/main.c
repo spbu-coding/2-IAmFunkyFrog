@@ -65,7 +65,7 @@ int read_input_array(long long out_array[], int array_max_size, struct interval_
             out_array[size] = num;
             size++;
         }
-    } while (delim == ' ' && size < array_max_size);
+    } while (size < array_max_size);
 
     return size;
 }
