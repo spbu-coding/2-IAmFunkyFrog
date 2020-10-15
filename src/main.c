@@ -56,7 +56,7 @@ int read_input_array(long long out_array[], int array_max_size, struct interval_
 
     do {
         if(scanf("%lli%c", &num, &delim) != 2)
-            return -1;
+            return size;
         if(num <= interval.from && interval.from_set_flag == 1)
             printf("%lli ", num);
         if(num >= interval.to && interval.to_set_flag == 1)
