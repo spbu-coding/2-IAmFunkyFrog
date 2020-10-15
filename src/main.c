@@ -58,9 +58,9 @@ int read_input_array(long long out_array[], int array_max_size, struct interval_
         if(scanf("%i", &num) != 1)
             return size;
         if(num <= interval.from && interval.from_set_flag == 1)
-            printf("%lli ", num);
+            printf("%lli ", (long long)num);
         if(num >= interval.to && interval.to_set_flag == 1)
-            stderr_printf("%lli ", num);
+            stderr_printf("%lli ", (long long)num);
         if((num > interval.from || interval.from_set_flag == 0) && (num < interval.to || interval.to_set_flag == 0)) {
             out_array[size] = (long long)num;
             size++;
