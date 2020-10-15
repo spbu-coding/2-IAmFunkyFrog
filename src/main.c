@@ -51,11 +51,11 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
 
 int read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
     int size = 0;
-    char delim;
+    //char delim;
     long long num;
 
     do {
-        if(scanf("%lli%c", &num, &delim) != 2)
+        if(scanf("%i", &num) != 1)
             return size;
         if(num <= interval.from && interval.from_set_flag == 1)
             printf("%lli ", num);
