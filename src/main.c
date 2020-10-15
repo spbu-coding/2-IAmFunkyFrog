@@ -101,6 +101,6 @@ int main(int argc, char* argv[]) {
     int swapped_count = compare_arrays(input_array, input_array_copy, size);
     free(input_array_copy);
 
-    return swapped_count;
+    return size;
 }
 // return code -1 - < 2 params, -2 - > 2 params, -3 - repeat of params, -4 - not valid params
