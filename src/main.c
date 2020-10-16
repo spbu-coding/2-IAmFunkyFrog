@@ -6,7 +6,6 @@
 #define INPUT_ARRAY_MAX_SIZE 100
 #define FROM_PARAM_STRING "--from="
 #define TO_PARAM_STRING "--to="
-#define stderr_printf(...) fprintf(stderr, __VA_ARGS__)
 
 //Параметры from и from_set_flag (to и to_set_flag) обновляются парами
 //Если параметр неактивен, его флаг необходимо установить в 0
@@ -25,7 +24,7 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
     if(argc == 3 && strncmp(argv[1], argv[2], strcspn(argv[1], "=")) == 0)
         return -3;
 
-    for(int i = 1; i < argc; i++) {
+    for(unsigned i = 1; i < argc; i++) {
         char *ptr;
         long long number_in_string;
         if (strncmp(argv[i], FROM_PARAM_STRING, strlen(FROM_PARAM_STRING)) == 0 && out_interval->from_set_flag == 0) {
@@ -50,29 +49,34 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
 }
 
 int read_input_array(long long out_array[], int array_max_size, struct interval_t interval) {
-    int size = 0;
+    int size = 0, error_size = 0, stdout_size = 0;
     char delim;
-    long long num;
+    long long error_out[100], stdout_out[100], num;
 
     do {
         if(scanf("%lli%c", &num, &delim) != 2)
             return -1;
         if(num <= interval.from && interval.from_set_flag == 1)
-            printf("%lli ", num);
+            stdout_out[stdout_size++] = num;
         if(num >= interval.to && interval.to_set_flag == 1)
-            stderr_printf("%lli ", num);
+            error_out[error_size++] = num;
         if((num > interval.from || interval.from_set_flag == 0) && (num < interval.to || interval.to_set_flag == 0)) {
             out_array[size] = num;
             size++;
         }
-    } while (delim == ' ' && size < array_max_size);
+    } while (delim == ' ' && size < array_max_size && error_size < array_max_size && stdout_size < array_max_size);
+
+    for(unsigned i = 0; i < stdout_size; i++)
+        fprintf(stdout, "%lli ", stdout_out[i]);
+    for(unsigned i = 0; i < error_size; i++)
+        fprintf(stderr, "%lli ", error_out[i]);
 
     return size;
 }
 
 int compare_arrays(const long long array1[], const long long array2[], int size) {
     int difference_count = 0;
-    for(int i = 0; i < size; i++) {
+    for(unsigned i = 0; i < size; i++) {
         if(array1[i] != array2[i])
             difference_count++;
     }
