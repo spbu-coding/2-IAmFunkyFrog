@@ -24,7 +24,7 @@ int parse_argv(int argc, char* argv[], struct interval_t* out_interval) {
     if(argc == 3 && strncmp(argv[1], argv[2], strcspn(argv[1], "=")) == 0)
         return -3;
 
-    for(unsigned i = 1; i < argc; i++) {
+    for(int i = 1; i < argc; i++) {
         char *ptr;
         long long number_in_string;
         if (strncmp(argv[i], FROM_PARAM_STRING, strlen(FROM_PARAM_STRING)) == 0 && out_interval->from_set_flag == 0) {
@@ -66,9 +66,9 @@ int read_input_array(long long out_array[], int array_max_size, struct interval_
         }
     } while (delim == ' ' && size < array_max_size && error_size < array_max_size && stdout_size < array_max_size);
 
-    for(unsigned i = 0; i < stdout_size; i++)
+    for(int i = 0; i < stdout_size; i++)
         fprintf(stdout, "%lli ", stdout_out[i]);
-    for(unsigned i = 0; i < error_size; i++)
+    for(int i = 0; i < error_size; i++)
         fprintf(stderr, "%lli ", error_out[i]);
 
     return size;
@@ -76,7 +76,7 @@ int read_input_array(long long out_array[], int array_max_size, struct interval_
 
 int compare_arrays(const long long array1[], const long long array2[], int size) {
     int difference_count = 0;
-    for(unsigned i = 0; i < size; i++) {
+    for(int i = 0; i < size; i++) {
         if(array1[i] != array2[i])
             difference_count++;
     }
